@@ -24,7 +24,7 @@
   (lambda (expression state)
     (cond
       ((null? expression) state)
-      ((eq? (caar expression) 'return) (cadar expression))
+      ((eq? (caar expression) 'return) (M_value(cadar expression)))
       ((eq? '= (operator expression)) (M_assign (expression state)))
       (else (M_value expression)))))
 
