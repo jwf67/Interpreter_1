@@ -24,7 +24,7 @@
   (lambda (expression state)
     (cond
       ((null? expression) state)
-      ((eq? (caar expression) return) (cadar expression))
+      ((eq? (caar expression) 'return) (cadar expression))
       ((eq? '= (operator expression)) (M_assign (expression state)))
       (else (M_value expression)))))
 
@@ -64,12 +64,6 @@
   (lambda (expression)
     ((eq? (caar expression) '-)
     ((eq? (caar expression) '!)))))
-
-(define M_return
-  (lambda (expression)
-    (cond
-    ((string=? (caar expression) "return") (cadar expression))
-    (else "hello"))))
 
 ; M_value takes an expression in the form '(value operator value) and the state
 ; only 2 values and one operator are allowed
