@@ -52,8 +52,6 @@
   (lambda (var value state)
     (cons (cons var (cons value '())) state)))
 
-
-
 ; M_assign takes a var, a value, and the state
 ; removes the var if it is in the state and then adds it to the state with its new value
 (define M_assign
@@ -77,18 +75,18 @@
       ;if the expression's first atom is return then call M_return
       ((eq? (car expr) 'return) (M_return expr state))
       ; Mathematical Expressions
-      ((eq? (operator expr) '+) (+ (M_value(operand1 expr state)) (M_value(operand2 expr state))))
-      ((eq? (operator expr) '-) (- (M_value(operand1 expr state)) (M_value(operand2 expr state))))
-      ((eq? (operator expr) '*) (* (M_value(operand1 expr state)) (M_value(operand2 expr state))))
-      ((eq? (operator expr) '/) (quotient (M_value(operand1 expr state)) (M_value(operand2 expr state))))
-      ((eq? (operator expr) '%) (remainder (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '+) (+ (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      ((eq? (operator expr) '-) (- (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      ((eq? (operator expr) '*) (* (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      ((eq? (operator expr) '/) (quotient (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      ((eq? (operator expr) '%) (remainder (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
       ; Comparison Expressions
-      ((eq? (operator expr) '==) (eq? (M_value(operand1 expr state)) (M_value(operand2 expr state))))
-      ((eq? (operator expr) '!=) (not (eq? (M_value(operand1 expr state)) (M_value(operand2 expr state)))))
-      ((eq? (operator expr) '>=) (>= (M_value(operand1 expr state)) (M_value(operand2 expr state))))
-      ((eq? (operator expr) '<=) (<= (M_value(operand1 expr state)) (M_value(operand2 expr state))))
-      ((eq? (operator expr) '>) (> (M_value(operand1 expr state)) (M_value(operand2 expr state))))
-      ((eq? (operator expr) '<) (< (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '==) (eq? (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      ((eq? (operator expr) '!=) (not (eq? (M_value(operand1 expr) state) (M_value(operand2 expr) state))))
+      ((eq? (operator expr) '>=) (>= (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      ((eq? (operator expr) '<=) (<= (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      ((eq? (operator expr) '>) (> (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      ((eq? (operator expr) '<) (< (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
       (else (error 'unknown "invalid expression")))))
 
 ; we can change all of the definitions below and alter how the operators work
