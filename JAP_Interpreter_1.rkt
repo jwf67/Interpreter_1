@@ -80,13 +80,7 @@
       ((eq? (operator expr) '*) (* (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
       ((eq? (operator expr) '/) (quotient (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
       ((eq? (operator expr) '%) (remainder (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
-      ; Comparison Expressions
-      ((eq? (operator expr) '==) (eq? (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
-      ((eq? (operator expr) '!=) (not (eq? (M_value(operand1 expr) state) (M_value(operand2 expr) state))))
-      ((eq? (operator expr) '>=) (>= (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
-      ((eq? (operator expr) '<=) (<= (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
-      ((eq? (operator expr) '>) (> (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
-      ((eq? (operator expr) '<) (< (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+      
       (else (error 'unknown "invalid expression")))))
 
 ; we can change all of the definitions below and alter how the operators work
@@ -120,5 +114,18 @@
 
 ; so we also need to define M_boolean
 (define M_boolean
-  (lambda (condition state)
-    (M_value condition state)))
+  (lambda (expr state)
+    (cond
+    ; Comparison Expressions
+    ((eq? (operator expr) '==) (eq? (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+    ((eq? (operator expr) '!=) (not (eq? (M_value(operand1 expr) state) (M_value(operand2 expr) state))))
+    ((eq? (operator expr) '>=) (>= (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+    ((eq? (operator expr) '<=) (<= (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+    ((eq? (operator expr) '>) (> (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+    ((eq? (operator expr) '<) (< (M_value(operand1 expr) state) (M_value(operand2 expr) state)))
+    ; Boolean Operations
+    ((eq? (operator expr) '&&) (and (M_boolean(operand1 expr) state) (M_boolean(operand2 expr) state)))
+    ((eq? (operator expr) '||) (or (M_boolean(operand1 expr) state) (M_boolean(operand2 expr) state)))
+    ; This (!) probably needs to be changed in some kind of M_atomboolean function
+    ((eq? (operator expr) '!) (not (M_boolean(operand2 expr) state)))
+    (else (error 'unknown "invalid expression")))))
