@@ -5,14 +5,15 @@
 (load "simpleParser.scm")
 
 ;interpret function that takes a file name and from the file makes the state
+;'() is the empty state
 (define interpret
   (lambda (filename)
-    (parser filename)))
+    (run-interpreter (parser filename) '())))
 
-;dont think this is right but i want to get the program to run files
+;run-interpreter is called to be more clear in providing the epressions to M_state to be looked at
 (define run-interpreter
-  (lambda (filename)
-    (M_state (parser filename) '() )))
+  (lambda (expressions state)
+    (M_state expressions '() )))
 
 ; Some definitions to be used relating to the state
 (define varname caar)
