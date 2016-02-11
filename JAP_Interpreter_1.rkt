@@ -60,8 +60,9 @@
                       
 (define M_unary
   (lambda (expression)
-    ((eq? (car expression) '-)
-    ((eq? (car expression) '!)))))
+    (cond
+      ((eq? (car expression) '-)
+      ((eq? (car expression) '!))))))
 
 ; M_value takes an expression in the form '(value operator value) and the state
 ; only 2 values and one operator are allowed
