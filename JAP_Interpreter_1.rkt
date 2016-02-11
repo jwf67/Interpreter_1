@@ -121,4 +121,6 @@
         state)))
 
 ; so we also need to define M_boolean
-
+(define M_boolean
+  (lambda (expression)
+    ()))
