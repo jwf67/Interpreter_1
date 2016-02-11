@@ -70,22 +70,22 @@
 ; evaluates the expression and returns the result
 ; uses abstraction for operator, operand1, and operand2
 (define M_value
-  (lambda (expr) ; WILL ALSO TAKE THE STATE
+  (lambda (expr state) ; WILL ALSO TAKE THE STATE
     (cond
       ((not (list? expr)) (M_atomvalue expr state))
       ; Mathematical Expressions
-      ((eq? (operator expr) '+) (+ (M_value(operand1 expr)) (M_value(operand2 expr))))
-      ((eq? (operator expr) '-) (- (M_value(operand1 expr)) (M_value(operand2 expr))))
-      ((eq? (operator expr) '*) (* (M_value(operand1 expr)) (M_value(operand2 expr))))
-      ((eq? (operator expr) '/) (quotient (M_value(operand1 expr)) (M_value(operand2 expr))))
-      ((eq? (operator expr) '%) (remainder (M_value(operand1 expr)) (M_value(operand2 expr))))
+      ((eq? (operator expr) '+) (+ (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '-) (- (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '*) (* (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '/) (quotient (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '%) (remainder (M_value(operand1 expr state)) (M_value(operand2 expr state))))
       ; Comparison Expressions
-      ((eq? (operator expr) '==) (eq? (M_value(operand1 expr)) (M_value(operand2 expr))))
-      ((eq? (operator expr) '!=) (not (eq? (M_value(operand1 expr)) (M_value(operand2 expr)))))
-      ((eq? (operator expr) '>=) (>= (M_value(operand1 expr)) (M_value(operand2 expr))))
-      ((eq? (operator expr) '<=) (<= (M_value(operand1 expr)) (M_value(operand2 expr))))
-      ((eq? (operator expr) '>) (> (M_value(operand1 expr)) (M_value(operand2 expr))))
-      ((eq? (operator expr) '<) (< (M_value(operand1 expr)) (M_value(operand2 expr))))
+      ((eq? (operator expr) '==) (eq? (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '!=) (not (eq? (M_value(operand1 expr state)) (M_value(operand2 expr state)))))
+      ((eq? (operator expr) '>=) (>= (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '<=) (<= (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '>) (> (M_value(operand1 expr state)) (M_value(operand2 expr state))))
+      ((eq? (operator expr) '<) (< (M_value(operand1 expr state)) (M_value(operand2 expr state))))
       (else (error 'unknown "invalid expression")))))
 
 ; we can change all of the definitions below and alter how the operators work
@@ -101,13 +101,14 @@
   (lambda (atom state)
     (cond
       ((number? atom) atom)
-      (else (cadr (M_lookup atom state)))))) 
+      (else (cadr (M_lookup atom state))))))
 
-; M_return returns the value of the expression
-;(define M_return
-;  (lambda (expr state)
-;    (
-; WE ACTUALLY MIGHT NOT NEED THIS
+;M_boolean returns true or false depending on whether its given value is true or false
+
+;M_return returns the value of a return expression
+(define M_return
+  (lambda (expression state)
+    (Mvalue (cadr expression) state)))
 
 ; M_state
 (define M_state-while
