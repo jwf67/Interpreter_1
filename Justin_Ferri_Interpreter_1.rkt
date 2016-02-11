@@ -90,11 +90,11 @@
 
 ; we can change all of the definitions below and alter how the operators work
 ; prefix, postfix, in between the operators
-(define operator cadar)
+(define operator cadr)
 
-(define operand1 caar)
+(define operand1 car)
 
-(define operand2 caddar)
+(define operand2 caddr)
 
 ; Later this will check to see if the atom is a variable and if it is, return the value of it (without using M_value)
 (define M_atomvalue
