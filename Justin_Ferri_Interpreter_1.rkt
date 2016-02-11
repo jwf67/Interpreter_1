@@ -62,8 +62,8 @@
                       
 (define M_unary
   (lambda (expression)
-    ((eq? (caar expression) '-)
-    ((eq? (caar expression) '!)))))
+    ((eq? (car expression) '-)
+    ((eq? (car expression) '!)))))
 
 ; M_value takes an expression in the form '(value operator value) and the state
 ; only 2 values and one operator are allowed
@@ -72,7 +72,10 @@
 (define M_value
   (lambda (expr state) ; WILL ALSO TAKE THE STATE
     (cond
+      ;if the expression isn't a list then it's a value
       ((not (list? expr)) (M_atomvalue expr state))
+      ;if the expression's first atom is return then call M_return
+      ((eq? (car expr) 'return) (M_return expr state))
       ; Mathematical Expressions
       ((eq? (operator expr) '+) (+ (M_value(operand1 expr state)) (M_value(operand2 expr state))))
       ((eq? (operator expr) '-) (- (M_value(operand1 expr state)) (M_value(operand2 expr state))))
